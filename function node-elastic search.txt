@@ -1,0 +1,42 @@
+const payload = msg.payload;
+const elasticsearch = global.get('elasticsearch');
+const client=new elasticsearch.Client({
+    node: 'https://fd00c6370c694177acfcf3f8d663fb7d.us-central1.gcp.cloud.es.io',
+    auth:{
+        username:'elastic',
+        password:'xhLARutkh41NExTC3iLODkuT'
+    },
+    ssl:{
+        rejectUnauthorized:false
+    }
+})
+
+client.index({
+    index:'weather-data',
+    body:payload
+})
+
+    .then(response => {
+        // Handle the response as needed
+        console.log('Document indexed:', response);
+        // ...
+        // Send the output message or perform other actions
+        msg.payload = response;
+        return msg;
+    })
+    .catch(error => {
+        // Handle the error
+        console.error('Error indexing document:', error);
+        // ...
+        // Send an error message or perform other actions
+        msg.payload = { error: error.message };
+        return msg;
+    });
+
+
+
+
+
+msg.payload = msg.payload;
+
+return msg;

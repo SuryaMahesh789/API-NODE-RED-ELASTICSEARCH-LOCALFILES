@@ -1,0 +1,4 @@
+var currentdate=new Date();
+var timestamp=currentdate.getTime();
+msg.payload = { parameters: msg.payload, time:timestamp}
+return msg;
