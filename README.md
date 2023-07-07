@@ -5,8 +5,6 @@
 ## Node_RED Flow
 ![Node-RED Flow](https://github.com/SuryaMahesh789/API-NODE-RED-ELASTICSEARCH-LOCALFILES/assets/101471548/16c855a6-8472-45f2-af1b-57a87aa09009)
 
-
-
 ## elasticsearch deployments
 ![image](https://github.com/SuryaMahesh789/API-NODE-RED-ELASTICSEARCH-LOCALFILES/assets/101471548/07624aa3-77fe-4509-9157-b27bef1e6ae2)
 
@@ -47,6 +45,10 @@
 
 ## change node1 - extract temperature seperately into dashboard
 ![image](https://github.com/SuryaMahesh789/API-NODE-RED-ELASTICSEARCH-LOCALFILES/assets/101471548/295c68ee-a1b6-49fe-a5fd-c77b87312958)
+
+## documents stored in elastic search
+![image](https://github.com/SuryaMahesh789/API-NODE-RED-ELASTICSEARCH-LOCALFILES/assets/101471548/57ee7cbb-44a5-4b91-b5a9-a364c06995ba)
+
 
 ## weather-data dashboard
 ![image](https://github.com/SuryaMahesh789/API-NODE-RED-ELASTICSEARCH-LOCALFILES/assets/101471548/d343ffd9-fad3-42ee-a194-2a54c57f39b3)
