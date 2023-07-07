@@ -52,3 +52,6 @@
 
 ## weather-data dashboard
 ![image](https://github.com/SuryaMahesh789/API-NODE-RED-ELASTICSEARCH-LOCALFILES/assets/101471548/d343ffd9-fad3-42ee-a194-2a54c57f39b3)
+
+## index mappings inside the project deployment
+![index-mappings of project](https://github.com/SuryaMahesh789/API-NODE-RED-ELASTICSEARCH-LOCALFILES/assets/101471548/586fd7b6-0a28-43c7-95c6-ae7368e26ec7)
