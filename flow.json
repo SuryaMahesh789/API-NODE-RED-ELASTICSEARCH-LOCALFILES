@@ -1,0 +1,407 @@
+[
+    {
+        "id": "fd9d58d8d8b2ec7f",
+        "type": "tab",
+        "label": "logging data to elastic search",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "df37ac34e1dd5840",
+        "type": "inject",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "4",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 390,
+        "y": 320,
+        "wires": [
+            [
+                "367e6eb4263ddd4c"
+            ]
+        ]
+    },
+    {
+        "id": "367e6eb4263ddd4c",
+        "type": "http request",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "https://samples.openweathermap.org/data/2.5/weather?q=London,uk&appid=b6907d289e10d714a6e88b30761fae22",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "a4dec287db646f06",
+                "2ee191ab6da45458",
+                "945a15118bbfeaa6",
+                "b095e5b5639baabd",
+                "cb3b27d5e7468648",
+                "25ad8c1446391bd0"
+            ]
+        ]
+    },
+    {
+        "id": "a4dec287db646f06",
+        "type": "change",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "Weather Data",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.main",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 800,
+        "y": 400,
+        "wires": [
+            [
+                "d301ab0242ac1254"
+            ]
+        ]
+    },
+    {
+        "id": "ce8cc3ec292e872c",
+        "type": "file",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "filename": "/home/iot/Desktop/weather_data.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 1060,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5984ada26391d2ad",
+        "type": "debug",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "output",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "d301ab0242ac1254",
+        "type": "function",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "current weather conditions",
+        "func": "//Current Date\nvar timestamp = new Date();\n\n// Format the time using desired options\nvar formattedTime = timestamp.toLocaleTimeString('en-US', { hour12: true, hour: 'numeric', minute: 'numeric', second: 'numeric' })\n\n\n//msg.payload IS THE MAIN PARAMETERS FROM THE WEATHER DATA Collected\n//Split the parameters accordingly\n\n\nvar temp = msg.payload.temp;\nvar pressure = msg.payload.pressure;\nvar humidity = msg.payload.humidity;\nvar temp_max = msg.payload.temp_max;\nvar temp_min = msg.payload.temp_min;\n\ntemp = Math.random() * 123 + temp * Math.random() - Math.random()*20;\ntemp=temp.toFixed(2);\ntemp = parseInt(temp);\n\npressure = Math.random() * 678 + pressure * Math.random() - Math.random() * 33;\npressure = Math.round(pressure);\n\nhumidity = Math.random() * 45 + humidity * Math.random() - Math.random() * 22;\nhumidity = Math.round(humidity);\n\ntemp_max = Math.random() * 131 + temp_max * Math.random() - Math.random() * 55;\ntemp_max = temp_max.toFixed(2);\ntemp_max = parseInt(temp_max);\n\n\ntemp_min = Math.random() * 34 + temp_min * Math.random() - Math.random() * 20;\ntemp_min = temp_min.toFixed(2);\ntemp_min = parseInt(temp_min);\n\n\nmsg.payload = { temp: temp, pressure: pressure, humidity: humidity, temp_max: temp_max, temp_min: temp_min, time: formattedTime}\nreturn msg;\n\n\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 460,
+        "wires": [
+            [
+                "ce8cc3ec292e872c",
+                "68bba3be84906ca6"
+            ]
+        ]
+    },
+    {
+        "id": "244cf30fe0e45b60",
+        "type": "ui_text",
+        "z": "fd9d58d8d8b2ec7f",
+        "group": "0623e9795635cab0",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "name": "temperature",
+        "label": "temperature",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1350,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2ee191ab6da45458",
+        "type": "change",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.main.temp",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 120,
+        "wires": [
+            [
+                "244cf30fe0e45b60"
+            ]
+        ]
+    },
+    {
+        "id": "945a15118bbfeaa6",
+        "type": "change",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.main.humidity",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 200,
+        "wires": [
+            [
+                "48528a761fb14a6a"
+            ]
+        ]
+    },
+    {
+        "id": "48528a761fb14a6a",
+        "type": "ui_text",
+        "z": "fd9d58d8d8b2ec7f",
+        "group": "0623e9795635cab0",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "humidity",
+        "label": "humidity",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1340,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "f91bae0c8200f09c",
+        "type": "ui_text",
+        "z": "fd9d58d8d8b2ec7f",
+        "group": "0623e9795635cab0",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "pressure",
+        "label": "pressure",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1340,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "2c475fcb66bb519a",
+        "type": "ui_text",
+        "z": "fd9d58d8d8b2ec7f",
+        "group": "0623e9795635cab0",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "temp_max",
+        "label": "temp_max",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1350,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b095e5b5639baabd",
+        "type": "change",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.main.pressure",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 260,
+        "wires": [
+            [
+                "f91bae0c8200f09c"
+            ]
+        ]
+    },
+    {
+        "id": "cb3b27d5e7468648",
+        "type": "change",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.main.temp_max",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 320,
+        "wires": [
+            [
+                "2c475fcb66bb519a"
+            ]
+        ]
+    },
+    {
+        "id": "25ad8c1446391bd0",
+        "type": "change",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload.main.temp_min",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 380,
+        "wires": [
+            [
+                "6e7daf87110da508"
+            ]
+        ]
+    },
+    {
+        "id": "6e7daf87110da508",
+        "type": "ui_text",
+        "z": "fd9d58d8d8b2ec7f",
+        "group": "0623e9795635cab0",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "temp_min",
+        "label": "temp_min",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1340,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "68bba3be84906ca6",
+        "type": "function",
+        "z": "fd9d58d8d8b2ec7f",
+        "name": "elastic search",
+        "func": "const payload = msg.payload;\nconst elasticsearch = global.get('elasticsearch');\nconst client=new elasticsearch.Client({\n    node: 'https://fd00c6370c694177acfcf3f8d663fb7d.us-central1.gcp.cloud.es.io',\n    auth:{\n        username:'elastic',\n        password:'xhLARutkh41NExTC3iLODkuT'\n    },\n    ssl:{\n        rejectUnauthorized:false\n    }\n})\n\nclient.index({\n    index:'weather-information',\n    body:payload\n})\n\n    .then(response => {\n        // Handle the response as needed\n        console.log('Document indexed:', response);\n        // ...\n        // Send the output message or perform other actions\n        msg.payload = response;\n        return msg;\n    })\n    .catch(error => {\n        // Handle the error\n        console.error('Error indexing document:', error);\n        // ...\n        // Send an error message or perform other actions\n        msg.payload = { error: error.message };\n        return msg;\n    });\n\n\n\n\n\nmsg.payload = msg.payload;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 580,
+        "wires": [
+            [
+                "5984ada26391d2ad"
+            ]
+        ]
+    },
+    {
+        "id": "0623e9795635cab0",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "62d45b6a18a1b70d",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "62d45b6a18a1b70d",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
